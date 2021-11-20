@@ -35,16 +35,19 @@ namespace AmbiledService.Services
 
         private string GetLogFullFilePath()
         {
-            var partialFileName = _configuration.GetValue<string>("LogFileName");
-            if (partialFileName == null)
+            var baseFileName = _configuration.GetValue<string>("LogBaseFileName");
+            if (baseFileName == null)
             {
-                partialFileName = "logs.txt";
+                baseFileName = "logs.txt";
             }
 
-            var path = new FileInfo(Assembly.GetExecutingAssembly().Location).DirectoryName;
-            var actualFileName = partialFileName.Replace(".", "-" + DateTime.Now.ToString("yy-MM-dd") + ".");
+            var assemblyDirectory = new FileInfo(Assembly.GetExecutingAssembly().Location).DirectoryName;
+            var actualFileName = baseFileName.Replace(".", "-" + DateTime.Now.ToString("yy-MM-dd") + ".");
+            var fullPath = Path.Combine(assemblyDirectory, "Logs", actualFileName);
 
-            return Path.Combine(path, actualFileName);
+            Directory.CreateDirectory(Path.GetDirectoryName(fullPath));
+
+            return fullPath;
         }
 
         protected virtual void Dispose(bool disposing)
