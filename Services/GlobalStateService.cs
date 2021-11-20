@@ -16,8 +16,11 @@ namespace AmbiledService.Services
         public GlobalStateService(IConfiguration configuration)
         {
             _rgbArray = new RGB[configuration.GetValue<int>("LedsNumber")];
+
             for (int i = 0; i < _rgbArray.Length; i++)
+            {
                 _rgbArray[i] = new RGB(0, 0, 0);
+            }
         }
     }
 }

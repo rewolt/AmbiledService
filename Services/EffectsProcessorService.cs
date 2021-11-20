@@ -32,7 +32,7 @@ namespace AmbiledService.Services
             }
             catch (Exception ex)
             {
-                _logger.Log("Error occured: " + ex.ToString());
+                _logger.Error($"Error occured while running {nameof(EffectsProcessorService)}.", ex);
             }
         }
     }

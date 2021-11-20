@@ -23,19 +23,31 @@ namespace AmbiledService.Services
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            await Task.Run(() =>
+            await Task.Run(async () =>
             {
                 while(!stoppingToken.IsCancellationRequested)
                 {
                     try
                     {
+                        if (!_serialPort?.IsOpen ?? false)
+                        {
+                            await Task.Delay(1000);
+                            continue;
+                        }
+
                         string message = _serialPort.ReadLine();
                         if (message == "OK")
+                        {
                             SendLedsData();
+                        }  
                     }
                     catch(TimeoutException)
                     {
-                        _logger.Log("Timeout exceeded when waiting for led driver.");
+                        _logger.Error("Timeout exceeded when waiting for led driver.");
+                    }
+                    catch(Exception ex)
+                    {
+                        _logger.Error($"Exception thrown from {nameof(SenderService)} while running", ex);
                     }
                 }
             }, stoppingToken);
@@ -77,10 +89,11 @@ namespace AmbiledService.Services
                 };
 
                 _serialPort.Open();
+                _logger.Log($"Serial port {_serialPort.PortName} opened successfully.");
             }
             catch (Exception ex)
             {
-                _logger.Log("Error: " + ex.ToString());
+                _logger.Error("Exception thrown while initializing serial port.", ex);
             }
         }
 
