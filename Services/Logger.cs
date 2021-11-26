@@ -15,7 +15,6 @@ namespace AmbiledService.Services
         {
             _configuration = configuration;
             _writer = new StreamWriter(GetLogFullFilePath(), append: true, System.Text.Encoding.UTF8);
-            
         }
         public void Log(string message)
         {
@@ -27,7 +26,7 @@ namespace AmbiledService.Services
 
         public void Error(string message, Exception ex = null)
         {
-            var msg = $"[{DateTime.Now:yyyy-MM-dd HH:mm:ss}] [ERROR] {message}\n{ex?.ToString() ?? ""}";
+            var msg = $"[{DateTime.Now:yyyy-MM-dd HH:mm:ss}] [ERROR] {message}{(ex is null ? "" : $"\n{ex}")}";
             Console.WriteLine(msg);
             _writer.WriteLine(msg);
             _writer.Flush();
@@ -52,7 +51,7 @@ namespace AmbiledService.Services
 
         protected virtual void Dispose(bool disposing)
         {
-            Log($"Disposing {nameof(Logger)}");
+            Log($"Disposing {nameof(Logger)}.");
             if (!_disposedValue)
             {
                 if (disposing)

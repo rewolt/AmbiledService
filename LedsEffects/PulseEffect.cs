@@ -52,7 +52,7 @@ namespace AmbiledService.LedsEffects
 
         protected virtual void Dispose(bool disposing)
         {
-            _logger.Log($"Disposing {nameof(PulseEffect)}");
+            _logger.Log($"Disposing {nameof(PulseEffect)}.");
             if (!_disposedValue)
             {
                 if (disposing)

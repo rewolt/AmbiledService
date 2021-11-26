@@ -43,7 +43,7 @@ namespace AmbiledService.Services
 
         protected virtual void Dispose(bool disposing)
         {
-            _logger.Log($"Disposing {nameof(CpuUsageService)}");
+            _logger.Log($"Disposing {nameof(CpuUsageService)}.");
             if (!_disposedValue)
             {
                 if (disposing)

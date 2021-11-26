@@ -31,7 +31,7 @@ namespace AmbiledService.Services
                     {
                         if (!_serialPort?.IsOpen ?? false)
                         {
-                            await Task.Delay(1000);
+                            await Task.Delay(100);
                             continue;
                         }
 
@@ -47,7 +47,7 @@ namespace AmbiledService.Services
                     }
                     catch(Exception ex)
                     {
-                        _logger.Error($"Exception thrown from {nameof(SenderService)} while running", ex);
+                        _logger.Error($"Exception thrown from {nameof(SenderService)} while running.", ex);
                     }
                 }
             }, stoppingToken);
@@ -99,7 +99,7 @@ namespace AmbiledService.Services
 
         protected virtual void Dispose(bool disposing)
         {
-            _logger.Log($"Disposing {nameof(SenderService)}");
+            _logger.Log($"Disposing {nameof(SenderService)}.");
             if (!_disposedValue)
             {
                 if (disposing)

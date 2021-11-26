@@ -88,7 +88,7 @@ namespace AmbiledService.LedsEffects
 
         protected virtual void Dispose(bool disposing)
         {
-            _logger.Log($"Disposing {nameof(TransformEffect)}");
+            _logger.Log($"Disposing {nameof(TransformEffect)}.");
             if (!_disposedValue)
             {
                 if (disposing)
