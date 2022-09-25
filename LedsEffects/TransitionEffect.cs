@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AmbiledService.LedsEffects
 {
-    public class TransformEffect : IEffect, IDisposable
+    public class TransitionEffect : IEffect
     {
         private readonly IConfiguration _configuration;
         private readonly GlobalStateService _globalStateService;
@@ -17,7 +17,7 @@ namespace AmbiledService.LedsEffects
         public event EventHandler EffectEnded;
         public event EventHandler EffectStarted;
 
-        public TransformEffect(IConfiguration configuration, GlobalStateService globalStateService, Logger logger)
+        public TransitionEffect(IConfiguration configuration, GlobalStateService globalStateService, Logger logger)
         {
             _configuration = configuration;
             _globalStateService = globalStateService;
@@ -25,17 +25,17 @@ namespace AmbiledService.LedsEffects
             _resolution = TimeSpan.FromMilliseconds(25);
         }
 
-        public async Task RunAsync(RGB startingColor, RGB endingColor, TimeSpan brighteningTime, byte cycles = 1)
+        public async Task RunAsync(RGB startingColor, RGB endingColor, TimeSpan transitionTime, byte cycles = 1)
         {
-            if (brighteningTime.TotalSeconds > 214)
-                throw new ArgumentException($"Maximum {nameof(brighteningTime)} cannot be longer than 214 seconds (3,5 min).");
+            if (transitionTime.TotalSeconds > 214)
+                throw new ArgumentException($"Maximum {nameof(transitionTime)} cannot be longer than 214 seconds (3,5 min).");
 
             OnEffectStarted(null);
 
             PreciseRGB actualColor = new (startingColor);
             PreciseRGB finalColor = new (endingColor);
 
-            long initialSteps = brighteningTime.Ticks / _resolution.Ticks;
+            long initialSteps = transitionTime.Ticks / _resolution.Ticks;
             long actualSteps = initialSteps;
 
             float redColorChangeSpan = (finalColor.red - startingColor.red) / initialSteps;
@@ -88,7 +88,7 @@ namespace AmbiledService.LedsEffects
 
         protected virtual void Dispose(bool disposing)
         {
-            _logger.Log($"Disposing {nameof(TransformEffect)}.");
+            _logger.Log($"Disposing {nameof(TransitionEffect)}.");
             if (!_disposedValue)
             {
                 if (disposing)

@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 
 namespace AmbiledService.LedsEffects
 {
-    public class PulseEffect : IEffect, IDisposable
+    public class PulseEffect : IEffect
     {
-        private readonly TransformEffect _transform;
+        private readonly TransitionEffect _transform;
         private readonly GlobalStateService _globalState;
         private readonly Logger _logger;
         private bool _disposedValue;
@@ -15,7 +15,7 @@ namespace AmbiledService.LedsEffects
         public event EventHandler EffectStarted;
         public event EventHandler EffectEnded;
 
-        public PulseEffect(TransformEffect transform, GlobalStateService globalState, Logger logger)
+        public PulseEffect(TransitionEffect transform, GlobalStateService globalState, Logger logger)
         {
             _transform = transform;
             _globalState = globalState;

@@ -1,4 +1,5 @@
 using AmbiledService.LedsEffects;
+using AmbiledService.Models;
 using AmbiledService.Utilities;
 using Microsoft.Extensions.Hosting;
 using System;
@@ -10,24 +11,28 @@ namespace AmbiledService.Services
     public class EffectsProcessorService : BackgroundService
     {
         private readonly GlobalStateService _globalStateService;
-        private readonly PulseEffect _pulse;
+        private readonly TransitionEffect _transition;
         private readonly Logger _logger;
 
-        public EffectsProcessorService(GlobalStateService globalStateService, PulseEffect pulse, Logger logger)
+        public EffectsProcessorService(GlobalStateService globalStateService, TransitionEffect transition, Logger logger)
         {
             _globalStateService = globalStateService;
-            _pulse = pulse;
+            _transition = transition;
             _logger = logger;
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
+            var darkBlue = new RGB(0, 0, 50);
+
             try
             {
                 while (!stoppingToken.IsCancellationRequested)
                 {
-                    var color = ColorConverter.ConvertCpuUsageToRGB(_globalStateService.CpuUsage);
-                    await _pulse.RunAsync(color, TimeSpan.FromMilliseconds(500), TimeSpan.FromMilliseconds(1000));
+                    var cpuColor = ColorConverter.ConvertCpuUsageToRGB(_globalStateService.CpuUsage);
+
+                    await _transition.RunAsync(darkBlue, cpuColor, TimeSpan.FromMilliseconds(500));
+                    await _transition.RunAsync(cpuColor, darkBlue, TimeSpan.FromMilliseconds(1500));
                 }
             }
             catch (Exception ex)

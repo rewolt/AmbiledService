@@ -2,7 +2,7 @@
 
 namespace AmbiledService.LedsEffects
 {
-    interface IEffect
+    interface IEffect : IDisposable
     {
         event EventHandler EffectStarted;
         event EventHandler EffectEnded;

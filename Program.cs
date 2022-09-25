@@ -18,7 +18,7 @@ namespace AmbiledServices
                 .ConfigureServices((hostContext, services) =>
                 {
                     services.AddSingleton<PulseEffect>();
-                    services.AddSingleton<TransformEffect>();
+                    services.AddSingleton<TransitionEffect>();
                     services.AddSingleton<Logger>();
                     services.AddSingleton<GlobalStateService>();
 
