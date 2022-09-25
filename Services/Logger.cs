@@ -5,7 +5,7 @@ using System.Reflection;
 
 namespace AmbiledService.Services
 {
-    public class Logger : IDisposable
+    public sealed class Logger : IDisposable
     {
         private StreamWriter _writer;
         private bool _disposedValue;
@@ -49,7 +49,7 @@ namespace AmbiledService.Services
             return fullPath;
         }
 
-        protected virtual void Dispose(bool disposing)
+        private void Dispose(bool disposing)
         {
             Log($"Disposing {nameof(Logger)}.");
             if (!_disposedValue)

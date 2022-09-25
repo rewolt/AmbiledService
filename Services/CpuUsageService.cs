@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AmbiledService.Services
 {
-    public class CpuUsageService : BackgroundService
+    public sealed class CpuUsageService : BackgroundService
     {
         long _idleTimeLast = 0, _kernelTimeLast = 0, _userTimeLast = 0;
         private bool _disposedValue;
@@ -41,7 +41,7 @@ namespace AmbiledService.Services
             }
         }
 
-        protected virtual void Dispose(bool disposing)
+        private void Dispose(bool disposing)
         {
             _logger.Log($"Disposing {nameof(CpuUsageService)}.");
             if (!_disposedValue)
@@ -60,7 +60,7 @@ namespace AmbiledService.Services
         }
     }
 
-    class CPUInfo
+    sealed class CPUInfo
     {
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode)]
         private unsafe static extern bool QueryPerformanceCounter(long* lpPerformanceCount);

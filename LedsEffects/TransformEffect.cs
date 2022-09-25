@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AmbiledService.LedsEffects
 {
-    public partial class TransformEffect : IEffect, IDisposable
+    public class TransformEffect : IEffect, IDisposable
     {
         private readonly IConfiguration _configuration;
         private readonly GlobalStateService _globalStateService;

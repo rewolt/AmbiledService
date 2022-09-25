@@ -1,4 +1,5 @@
 ﻿using AmbiledService.Models;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using System;
 using System.IO.Ports;
@@ -7,17 +8,19 @@ using System.Threading.Tasks;
 
 namespace AmbiledService.Services
 {
-    public class SenderService : BackgroundService
+    public sealed class SenderService : BackgroundService
     {
         private SerialPort _serialPort;
         private bool _disposedValue;
+        private byte[] _buffer;
         private readonly GlobalStateService _globalStateService;
         private readonly Logger _logger;
 
-        public SenderService(GlobalStateService globalStateService, Logger logger)
+        public SenderService(GlobalStateService globalStateService, IConfiguration configuration, Logger logger)
         {
             _globalStateService = globalStateService;
             _logger = logger;
+            _buffer = new byte[configuration.GetValue<int>("LedsNumber") * 3];
             SerialPortInitialize();
         }
 
@@ -56,16 +59,15 @@ namespace AmbiledService.Services
         private void SendLedsData()
         {
             var ledsCopy = (RGB[])_globalStateService.RgbArray.Clone();
-            byte[] buffer = new byte[ledsCopy.Length * 3];
             byte ledIterator = 0;
-            for (byte i = 0; i < buffer.Length; i += 3)
+            for (byte i = 0; i < _buffer.Length; i += 3)
             {
-                buffer[i] = ledsCopy[ledIterator].red;
-                buffer[i + 1] = ledsCopy[ledIterator].green;
-                buffer[i + 2] = ledsCopy[ledIterator].blue;
+                _buffer[i] = ledsCopy[ledIterator].red;
+                _buffer[i + 1] = ledsCopy[ledIterator].green;
+                _buffer[i + 2] = ledsCopy[ledIterator].blue;
                 ledIterator++;
             }
-            _serialPort.Write(buffer, 0, buffer.Length);
+            _serialPort.Write(_buffer, 0, _buffer.Length);
         }
 
         private void SerialPortInitialize()
@@ -97,7 +99,7 @@ namespace AmbiledService.Services
             }
         }
 
-        protected virtual void Dispose(bool disposing)
+        private void Dispose(bool disposing)
         {
             _logger.Log($"Disposing {nameof(SenderService)}.");
             if (!_disposedValue)

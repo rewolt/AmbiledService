@@ -4,7 +4,7 @@ using System.Threading;
 
 namespace AmbiledService.Services
 {
-    public class GlobalStateService
+    public sealed class GlobalStateService
     {
         private RGB[] _rgbArray;
         private volatile int _cpuUsage;
