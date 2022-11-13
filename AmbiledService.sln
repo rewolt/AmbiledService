@@ -5,6 +5,8 @@ VisualStudioVersion = 17.3.32901.215
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AmbiledService", "AmbiledService.csproj", "{42892579-5A4B-46E5-A129-1C36BC4D0229}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "libsoundio-sharp", "..\libsoundio-sharp\dotnetcore\libsoundio-sharp\libsoundio-sharp.csproj", "{6A96E28F-87B5-491A-A8FE-E770CB29AFBF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{42892579-5A4B-46E5-A129-1C36BC4D0229}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{42892579-5A4B-46E5-A129-1C36BC4D0229}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{42892579-5A4B-46E5-A129-1C36BC4D0229}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6A96E28F-87B5-491A-A8FE-E770CB29AFBF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6A96E28F-87B5-491A-A8FE-E770CB29AFBF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6A96E28F-87B5-491A-A8FE-E770CB29AFBF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6A96E28F-87B5-491A-A8FE-E770CB29AFBF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

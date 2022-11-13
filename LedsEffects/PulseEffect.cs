@@ -1,11 +1,12 @@
-﻿using AmbiledService.Models;
+﻿using AmbiledService.LedsEffects.Interfaces;
+using AmbiledService.Models;
 using AmbiledService.Services;
 using System;
 using System.Threading.Tasks;
 
 namespace AmbiledService.LedsEffects
 {
-    public class PulseEffect : IEffect
+    public sealed class PulseEffect : IEffect
     {
         private readonly TransitionEffect _transform;
         private readonly GlobalStateService _globalState;
@@ -38,19 +39,19 @@ namespace AmbiledService.LedsEffects
             OnEffectEnded(null);
         }
 
-        protected virtual void OnEffectStarted(EventArgs e)
+        public void OnEffectStarted(EventArgs e)
         {
             EventHandler handler = EffectStarted;
             handler?.Invoke(this, e);
         }
 
-        protected virtual void OnEffectEnded(EventArgs e)
+        public void OnEffectEnded(EventArgs e)
         {
             EventHandler handler = EffectEnded;
             handler?.Invoke(this, e);
         }
 
-        protected virtual void Dispose(bool disposing)
+        private void Dispose(bool disposing)
         {
             _logger.Log($"Disposing {nameof(PulseEffect)}.");
             if (!_disposedValue)

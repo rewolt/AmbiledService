@@ -1,4 +1,5 @@
-﻿using AmbiledService.Models;
+﻿using AmbiledService.LedsEffects.Interfaces;
+using AmbiledService.Models;
 using AmbiledService.Services;
 using Microsoft.Extensions.Configuration;
 using System;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace AmbiledService.LedsEffects
 {
-    public class TransitionEffect : IEffect
+    public sealed class TransitionEffect : IEffect
     {
         private readonly IConfiguration _configuration;
         private readonly GlobalStateService _globalStateService;
@@ -72,21 +73,21 @@ namespace AmbiledService.LedsEffects
             OnEffectEnded(null);
         }
 
-        protected virtual void OnEffectStarted(EventArgs e)
+        public void OnEffectStarted(EventArgs e)
         {
             _globalStateService.IsTransformEffectRunning = true;
             EventHandler handler = EffectStarted;
             handler?.Invoke(this, e);
         }
 
-        protected virtual void OnEffectEnded(EventArgs e)
+        public void OnEffectEnded(EventArgs e)
         {
             _globalStateService.IsTransformEffectRunning = false;
             EventHandler handler = EffectEnded;
             handler?.Invoke(this, e);
         }
 
-        protected virtual void Dispose(bool disposing)
+        private void Dispose(bool disposing)
         {
             _logger.Log($"Disposing {nameof(TransitionEffect)}.");
             if (!_disposedValue)
